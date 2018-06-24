@@ -12,4 +12,4 @@ Windows Form game: the hangman.
 ### The word is entered up to 11 characters, then the game is started, it is a simple game without players..
 
 
-![alt text](https://github.com/francodelsancio/-Hangman/blob/master/hangmanScreen.jpg)
+![alt text](https://github.com/francodelsancio/thehangman/blob/master/hangmanScreen.jpg)
