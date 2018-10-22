@@ -396,7 +396,7 @@
             this.btnAdd.Text = "Comenzar";
             this.btnAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnAdd.Click += new System.EventHandler(this.btnAddWord_Click);
             this.btnAdd.MouseEnter += new System.EventHandler(this.MouseEnter);
             this.btnAdd.MouseLeave += new System.EventHandler(this.MouseLeave);
             // 

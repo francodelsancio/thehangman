@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+using HMController;
+using System;
 using System.Windows.Forms;
 
 namespace P3E00
@@ -16,7 +15,7 @@ namespace P3E00
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Ahorcado());
+            Application.Run(new Ahorcado(new AhorcadoController()));
         }
     }
 }

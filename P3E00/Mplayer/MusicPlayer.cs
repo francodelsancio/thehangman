@@ -11,29 +11,25 @@ Laboratorio de Cumputacion I
 
 namespace P3E00
 {
-    public class Player
+    public static class MusicPlayer
     {
-        private readonly WindowsMediaPlayer _player = new WindowsMediaPlayer();
-
+        private static readonly WindowsMediaPlayer _player = new WindowsMediaPlayer();
     
-        public void PlayMusic(Boolean play)
+        public static void PlayMusic(Boolean play)
         {
-            this._player.URL = "donkey-kong-country.mp3";
+            _player.URL = "donkey-kong-country.mp3";
 
             if (play) _player.controls.play();
             else _player.controls.stop();
       
-
         }
 
-        public void PlayWoosh(Boolean play)
+        public static void PlayWoosh(Boolean play)
         {
-            this._player.URL = "mario-bros-hammer-throw.mp3";
+            _player.URL = "mario-bros-hammer-throw.mp3";
 
             if (play) _player.controls.play();
-
             else _player.controls.stop();
-
 
         }
 
