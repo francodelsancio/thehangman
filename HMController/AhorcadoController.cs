@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HMController
 {
     public class AhorcadoController : IAhorcadoController
     {
-        private List<char> Word = new List<char>();
+
+        #region Properties
+
+        private StringBuilder Word = new StringBuilder();
 
         private List<char> WordResult = new List<char>();
 
@@ -18,18 +19,20 @@ namespace HMController
 
         private int _wins = 0;
 
+        #endregion
+
         public void AddWord(string word)
         {
             foreach (var letter in word)
             {
-                this.Word.Add(letter);
+                this.Word.Append(letter);
                 this.WordResult.Add(' ');
             }
         }
 
         public TestResult TestLetter(char letter)
         {
-            if (Word.Count == 0)
+            if (Word.Length == 0)
                 throw new Exception("No hay palabra para el test.");
 
             var testResult = new TestResult();
@@ -43,7 +46,7 @@ namespace HMController
 
             int _oldwins = _wins;
 
-            for (int i = 0; i < Word.Count; i++)
+            for (int i = 0; i < Word.Length; i++)
             {
                 if (letter == Word[i])
                 {
@@ -67,7 +70,7 @@ namespace HMController
 
         public bool PayerHasWon()
         {
-            return _wins > 0 && _wins == Word.Count;
+            return _wins > 0 && _wins == Word.Length;
 
         }
 

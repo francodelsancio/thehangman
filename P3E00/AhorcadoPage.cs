@@ -16,6 +16,8 @@ namespace P3E00
     public partial class Ahorcado : Form
     {
 
+        #region Properties
+
         private IAhorcadoController controller;
 
         private List<Button> LetterBoxs = new List<Button>();
@@ -23,6 +25,8 @@ namespace P3E00
         private List<Image> GuyPics = new List<Image>();
 
         private Timer Timer = new Timer();
+
+        #endregion
 
         private Ahorcado()
         {
@@ -37,10 +41,7 @@ namespace P3E00
             this.controller = controller;
         }
 
-        private void Ahorcado_Load(object sender, EventArgs e)
-        {
-            MusicPlayer.PlayMusic(true);
-        }
+        #region ViewButtons
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -58,29 +59,42 @@ namespace P3E00
             CheckAndSetView(txtWord.Text);
         }
 
-        private void CheckAndSetView(string word)
+        private void btnArrow_Click(object sender, EventArgs e)
         {
-            if (Entry.IsLetter(word))
+            if (txtLetter.Text.Length != 1)
             {
-                controller.AddWord(word.ToUpper());
-                SetupView(word);
+                Message.Error("Solo se puede ingresar una letra.");
+                return;
             }
-            else
-            {
-                Message.Error("Debe ingrear una palabra válida.");
-                txtWord.Text = string.Empty;
-            }
+
+            char letter = char.Parse(txtLetter.Text.ToUpper());
+
+            CheckLetter(letter);
+        }
+
+        #endregion
+
+        #region ViewEvents
+
+        private void Ahorcado_Load(object sender, EventArgs e)
+        {
+            MusicPlayer.PlayMusic(true);
+        }
+
+        private void ClearImage(object sender, EventArgs e)
+        {
+            picBoxStatus.Image = null;
+            Timer.Stop();
         }
 
         private void txtWord_TextChanged(object sender, EventArgs e)
         {
             string word = (sender as TextBox).Text;
 
-            if (word.Length > 3 && word.Length <=11 ) btnAdd.Enabled = true;
+            if (word.Length > 3 && word.Length <= 11) btnAdd.Enabled = true;
 
-            else btnAdd.Enabled = false;         
+            else btnAdd.Enabled = false;
         }
-
 
         private void txtLetter_TextChanged(object sender, EventArgs e)
         {
@@ -94,18 +108,36 @@ namespace P3E00
             btnArrow.Enabled = true;
         }
 
-
-        private void btnArrow_Click(object sender, EventArgs e)
+        private new void MouseEnter(object sender, EventArgs e)
         {
-            if (txtLetter.Text.Length != 1)
+            var btn = (sender as Button);
+            btn.Width += 3;
+            btn.Height += 3;
+        }
+
+        private new void MouseLeave(object sender, EventArgs e)
+        {
+            var btn = (sender as Button);
+            btn.Width -= 3;
+            btn.Height -= 3;
+        }
+
+        #endregion
+
+        #region HelperMethods
+
+        private void CheckAndSetView(string word)
+        {
+            if (Entry.IsLetter(word))
             {
-                Message.Error("Solo se puede ingresar una letra.");
-                return;
+                controller.AddWord(word.ToUpper());
+                SetupView(word);
             }
-
-            char letter = char.Parse(txtLetter.Text.ToUpper());
-
-            CheckLetter(letter);
+            else
+            {
+                Message.Error("Debe ingrear una palabra válida.");
+                txtWord.Text = string.Empty;
+            }
         }
 
         private void CheckLetter(char letter)
@@ -180,12 +212,6 @@ namespace P3E00
             Timer.Start();
         }
 
-        private void ClearImage(object sender, EventArgs e)
-        {
-            picBoxStatus.Image = null;
-            Timer.Stop();
-        }
-
         private void HideBoxes(int box)
         {
             for (int i = 0; i < LetterBoxs.Count; i++)
@@ -193,38 +219,12 @@ namespace P3E00
                 if (i < box) LetterBoxs[i].Show();
 
                 else LetterBoxs[i].Hide();
-            }     
+            }
         }
 
-        private void Reset()
-        {
-            controller.ResetController();
-            lblRemain.Text = controller.TotalAttempts().ToString();
-            txtWord.Text = string.Empty;
-            txtLetter.Text = string.Empty;
-            LetterBoxs.ForEach( box => box.Text = string.Empty);
-            picBoxRope.Show();
-            picBoxGuy.Image = null;
-            pannelGame.Hide();
-            pannelAddWord.Hide();
-            pannelRemain.Hide();
-            btnStart.Show();
-            MusicPlayer.PlayMusic(true);
-        }
+        #endregion
 
-        private new void MouseEnter(object sender, EventArgs e)
-        {      
-            var btn = (sender as Button);
-            btn.Width += 3;
-            btn.Height += 3;
-        }
-
-        private new void MouseLeave(object sender, EventArgs e)
-        {
-            var btn = (sender as Button);
-            btn.Width -= 3;
-            btn.Height -= 3;
-        }
+        #region SetupView
 
         private void SetupView(string word)
         {
@@ -247,6 +247,22 @@ namespace P3E00
             {
                 picBoxStatus.Location = pannelRemain.Location;
             }
+        }
+
+        private void Reset()
+        {
+            controller.ResetController();
+            lblRemain.Text = controller.TotalAttempts().ToString();
+            txtWord.Text = string.Empty;
+            txtLetter.Text = string.Empty;
+            LetterBoxs.ForEach(box => box.Text = string.Empty);
+            picBoxRope.Show();
+            picBoxGuy.Image = null;
+            pannelGame.Hide();
+            pannelAddWord.Hide();
+            pannelRemain.Hide();
+            btnStart.Show();
+            MusicPlayer.PlayMusic(true);
         }
 
 
@@ -278,5 +294,7 @@ namespace P3E00
             GuyPics.Add(Properties.Resources.Ahorcado7);
             GuyPics.Add(Properties.Resources.Ahorcado8);
         }
+
+        #endregion
     }
 }
